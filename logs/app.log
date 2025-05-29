@@ -1,0 +1,175 @@
+2025-05-29T10:58:55.527+08:00  INFO 21744 --- [main] c.e.demo.ParkeasyBackendApplication      : Starting ParkeasyBackendApplication using Java 21.0.7 with PID 21744 (C:\WorkSpace\Parkeasy-backend\target\classes started by u_u in C:\WorkSpace\Parkeasy-backend)
+2025-05-29T10:58:55.529+08:00  INFO 21744 --- [main] c.e.demo.ParkeasyBackendApplication      : No active profile set, falling back to 1 default profile: "default"
+2025-05-29T10:58:55.918+08:00  INFO 21744 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-29T10:58:55.956+08:00  INFO 21744 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 32 ms. Found 1 JPA repository interfaces.
+2025-05-29T10:58:56.303+08:00  INFO 21744 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2025-05-29T10:58:56.311+08:00  INFO 21744 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-29T10:58:56.311+08:00  INFO 21744 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.8]
+2025-05-29T10:58:56.491+08:00  INFO 21744 --- [main] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-05-29T10:58:56.497+08:00  INFO 21744 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-29T10:58:56.498+08:00  INFO 21744 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 941 ms
+2025-05-29T10:58:56.592+08:00  INFO 21744 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-29T10:58:56.629+08:00  INFO 21744 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.2.Final
+2025-05-29T10:58:56.630+08:00  INFO 21744 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2025-05-29T10:58:56.728+08:00  INFO 21744 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T10:58:56.817+08:00  INFO 21744 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-29T10:58:56.831+08:00  INFO 21744 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-29T10:58:56.947+08:00  INFO 21744 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1d8e9d3e
+2025-05-29T10:58:56.949+08:00  INFO 21744 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-29T10:58:56.996+08:00  INFO 21744 --- [main] org.hibernate.orm.dialect                : HHH035001: Using dialect: org.hibernate.dialect.MySQLDialect, version: 8.0.41
+2025-05-29T10:58:57.115+08:00  INFO 21744 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T10:58:57.565+08:00  INFO 21744 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-29T10:58:57.602+08:00  INFO 21744 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T10:58:58.070+08:00  WARN 21744 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-05-29T10:58:58.071+08:00  INFO 21744 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T10:58:58.072+08:00  INFO 21744 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-29T10:58:58.079+08:00  INFO 21744 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-29T10:58:58.081+08:00  INFO 21744 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-05-29T10:58:58.088+08:00  INFO 21744 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-05-29T10:58:58.100+08:00 ERROR 21744 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8081 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8081 or configure this application to listen on another port.
+
+2025-05-29T11:00:58.279+08:00  INFO 26936 --- [main] c.e.demo.ParkeasyBackendApplication      : Starting ParkeasyBackendApplication using Java 21.0.7 with PID 26936 (C:\WorkSpace\Parkeasy-backend\target\classes started by u_u in C:\WorkSpace\Parkeasy-backend)
+2025-05-29T11:00:58.280+08:00  INFO 26936 --- [main] c.e.demo.ParkeasyBackendApplication      : No active profile set, falling back to 1 default profile: "default"
+2025-05-29T11:00:58.644+08:00  INFO 26936 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-29T11:00:58.679+08:00  INFO 26936 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 30 ms. Found 1 JPA repository interfaces.
+2025-05-29T11:00:59.002+08:00  INFO 26936 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2025-05-29T11:00:59.009+08:00  INFO 26936 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-29T11:00:59.009+08:00  INFO 26936 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.8]
+2025-05-29T11:00:59.186+08:00  INFO 26936 --- [main] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-05-29T11:00:59.190+08:00  INFO 26936 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-29T11:00:59.192+08:00  INFO 26936 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 878 ms
+2025-05-29T11:00:59.277+08:00  INFO 26936 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-29T11:00:59.308+08:00  INFO 26936 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.2.Final
+2025-05-29T11:00:59.309+08:00  INFO 26936 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2025-05-29T11:00:59.395+08:00  INFO 26936 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T11:00:59.479+08:00  INFO 26936 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-29T11:00:59.489+08:00  INFO 26936 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-29T11:00:59.594+08:00  INFO 26936 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@26d40c77
+2025-05-29T11:00:59.595+08:00  INFO 26936 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-29T11:00:59.644+08:00  INFO 26936 --- [main] org.hibernate.orm.dialect                : HHH035001: Using dialect: org.hibernate.dialect.MySQLDialect, version: 8.0.41
+2025-05-29T11:00:59.760+08:00  INFO 26936 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T11:01:00.170+08:00  INFO 26936 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-29T11:01:00.207+08:00  INFO 26936 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T11:01:00.645+08:00  WARN 26936 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-05-29T11:01:00.647+08:00  INFO 26936 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T11:01:00.648+08:00  INFO 26936 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-29T11:01:00.653+08:00  INFO 26936 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-29T11:01:00.655+08:00  INFO 26936 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-05-29T11:01:00.663+08:00  INFO 26936 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-05-29T11:01:00.674+08:00 ERROR 26936 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8081 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8081 or configure this application to listen on another port.
+
+2025-05-29T11:02:00.211+08:00  INFO 28848 --- [main] c.e.demo.ParkeasyBackendApplication      : Starting ParkeasyBackendApplication using Java 21.0.7 with PID 28848 (C:\WorkSpace\Parkeasy-backend\target\classes started by u_u in C:\WorkSpace\Parkeasy-backend)
+2025-05-29T11:02:00.212+08:00  INFO 28848 --- [main] c.e.demo.ParkeasyBackendApplication      : No active profile set, falling back to 1 default profile: "default"
+2025-05-29T11:02:00.575+08:00  INFO 28848 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-29T11:02:00.611+08:00  INFO 28848 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 31 ms. Found 1 JPA repository interfaces.
+2025-05-29T11:02:00.936+08:00  INFO 28848 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8086 (http)
+2025-05-29T11:02:00.944+08:00  INFO 28848 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-29T11:02:00.944+08:00  INFO 28848 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.8]
+2025-05-29T11:02:01.124+08:00  INFO 28848 --- [main] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-05-29T11:02:01.130+08:00  INFO 28848 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-29T11:02:01.130+08:00  INFO 28848 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 889 ms
+2025-05-29T11:02:01.219+08:00  INFO 28848 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-29T11:02:01.253+08:00  INFO 28848 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.2.Final
+2025-05-29T11:02:01.255+08:00  INFO 28848 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2025-05-29T11:02:01.343+08:00  INFO 28848 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T11:02:01.425+08:00  INFO 28848 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-29T11:02:01.438+08:00  INFO 28848 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-29T11:02:01.544+08:00  INFO 28848 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@26d40c77
+2025-05-29T11:02:01.545+08:00  INFO 28848 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-29T11:02:01.593+08:00  INFO 28848 --- [main] org.hibernate.orm.dialect                : HHH035001: Using dialect: org.hibernate.dialect.MySQLDialect, version: 8.0.41
+2025-05-29T11:02:01.719+08:00  INFO 28848 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T11:02:02.123+08:00  INFO 28848 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-29T11:02:02.160+08:00  INFO 28848 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T11:02:02.610+08:00  INFO 28848 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8086 (http) with context path ''
+2025-05-29T11:02:02.615+08:00  INFO 28848 --- [main] c.e.demo.ParkeasyBackendApplication      : Started ParkeasyBackendApplication in 2.662 seconds (process running for 3.034)
+2025-05-29T11:02:05.258+08:00  INFO 28848 --- [http-nio-8086-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-29T11:02:05.259+08:00  INFO 28848 --- [http-nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-29T11:02:05.260+08:00  INFO 28848 --- [http-nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-05-29T11:29:10.696+08:00  INFO 28848 --- [RMI TCP Connection(36)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2025-05-29T11:29:10.703+08:00  INFO 28848 --- [RMI TCP Connection(36)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-05-29T11:29:10.708+08:00  INFO 28848 --- [RMI TCP Connection(36)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2025-05-29T11:29:10.716+08:00  INFO 28848 --- [RMI TCP Connection(36)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T11:29:10.718+08:00  INFO 28848 --- [RMI TCP Connection(36)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-29T11:29:10.724+08:00  INFO 28848 --- [RMI TCP Connection(36)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-29T11:29:12.371+08:00  INFO 26244 --- [main] c.e.demo.ParkeasyBackendApplication      : Starting ParkeasyBackendApplication using Java 21.0.7 with PID 26244 (C:\WorkSpace\Parkeasy-backend\target\classes started by u_u in C:\WorkSpace\Parkeasy-backend)
+2025-05-29T11:29:12.373+08:00  INFO 26244 --- [main] c.e.demo.ParkeasyBackendApplication      : No active profile set, falling back to 1 default profile: "default"
+2025-05-29T11:29:12.866+08:00  INFO 26244 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-29T11:29:12.915+08:00  INFO 26244 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 42 ms. Found 1 JPA repository interfaces.
+2025-05-29T11:29:13.472+08:00  INFO 26244 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8086 (http)
+2025-05-29T11:29:13.484+08:00  INFO 26244 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-29T11:29:13.484+08:00  INFO 26244 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.8]
+2025-05-29T11:29:13.692+08:00  INFO 26244 --- [main] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-05-29T11:29:13.696+08:00  INFO 26244 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-29T11:29:13.696+08:00  INFO 26244 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1283 ms
+2025-05-29T11:29:13.790+08:00  INFO 26244 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-29T11:29:13.843+08:00  INFO 26244 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.2.Final
+2025-05-29T11:29:13.846+08:00  INFO 26244 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2025-05-29T11:29:13.969+08:00  INFO 26244 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T11:29:14.083+08:00  INFO 26244 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-29T11:29:14.098+08:00  INFO 26244 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-29T11:29:14.210+08:00  INFO 26244 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7b7068d8
+2025-05-29T11:29:14.211+08:00  INFO 26244 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-29T11:29:14.267+08:00  INFO 26244 --- [main] org.hibernate.orm.dialect                : HHH035001: Using dialect: org.hibernate.dialect.MySQLDialect, version: 8.0.41
+2025-05-29T11:29:14.415+08:00  INFO 26244 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T11:29:14.933+08:00  INFO 26244 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-29T11:29:15.051+08:00  INFO 26244 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T11:29:15.517+08:00  INFO 26244 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8086 (http) with context path ''
+2025-05-29T11:29:15.523+08:00  INFO 26244 --- [main] c.e.demo.ParkeasyBackendApplication      : Started ParkeasyBackendApplication in 3.437 seconds (process running for 3.864)
+2025-05-29T11:31:12.772+08:00  INFO 26244 --- [RMI TCP Connection(11)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2025-05-29T11:31:12.776+08:00  INFO 26244 --- [RMI TCP Connection(11)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-05-29T11:31:12.781+08:00  INFO 26244 --- [RMI TCP Connection(11)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T11:31:12.782+08:00  INFO 26244 --- [RMI TCP Connection(11)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-29T11:31:12.789+08:00  INFO 26244 --- [RMI TCP Connection(11)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-29T11:31:14.358+08:00  INFO 19544 --- [main] c.e.demo.ParkeasyBackendApplication      : Starting ParkeasyBackendApplication using Java 21.0.7 with PID 19544 (C:\WorkSpace\Parkeasy-backend\target\classes started by u_u in C:\WorkSpace\Parkeasy-backend)
+2025-05-29T11:31:14.360+08:00  INFO 19544 --- [main] c.e.demo.ParkeasyBackendApplication      : No active profile set, falling back to 1 default profile: "default"
+2025-05-29T11:31:14.820+08:00  INFO 19544 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-29T11:31:14.864+08:00  INFO 19544 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38 ms. Found 1 JPA repository interfaces.
+2025-05-29T11:31:15.307+08:00  INFO 19544 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8086 (http)
+2025-05-29T11:31:15.319+08:00  INFO 19544 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-29T11:31:15.319+08:00  INFO 19544 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.8]
+2025-05-29T11:31:15.525+08:00  INFO 19544 --- [main] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-05-29T11:31:15.530+08:00  INFO 19544 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-29T11:31:15.530+08:00  INFO 19544 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1130 ms
+2025-05-29T11:31:15.620+08:00  INFO 19544 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-29T11:31:15.652+08:00  INFO 19544 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.2.Final
+2025-05-29T11:31:15.654+08:00  INFO 19544 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2025-05-29T11:31:15.747+08:00  INFO 19544 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T11:31:15.828+08:00  INFO 19544 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-29T11:31:15.838+08:00  INFO 19544 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-29T11:31:15.939+08:00  INFO 19544 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@26d40c77
+2025-05-29T11:31:15.940+08:00  INFO 19544 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-29T11:31:15.984+08:00  INFO 19544 --- [main] org.hibernate.orm.dialect                : HHH035001: Using dialect: org.hibernate.dialect.MySQLDialect, version: 8.0.41
+2025-05-29T11:31:16.103+08:00  INFO 19544 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-05-29T11:31:16.498+08:00  INFO 19544 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-05-29T11:31:16.535+08:00  INFO 19544 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-29T11:31:16.961+08:00  INFO 19544 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8086 (http) with context path ''
+2025-05-29T11:31:16.966+08:00  INFO 19544 --- [main] c.e.demo.ParkeasyBackendApplication      : Started ParkeasyBackendApplication in 2.894 seconds (process running for 3.3)
+2025-05-29T13:40:07.292+08:00  WARN 19544 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h1m19s361ms591µs400ns).
