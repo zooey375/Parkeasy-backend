@@ -1,4 +1,4 @@
-// 定義這隻程式的「位置」；它放在 service 資料夾下，是服務曾(負責邏輯處理)
+// 定義這隻程式的「位置」；它放在 service 資料夾下，是服務層(負責邏輯處理)
 package com.example.demo.service;
 
 import com.example.demo.model.entity.ParkingLot;	// 資料模型
