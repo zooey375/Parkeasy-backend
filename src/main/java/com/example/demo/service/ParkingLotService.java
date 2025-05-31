@@ -40,4 +40,14 @@ public class ParkingLotService {
             
             .collect(Collectors.toList());
     }
+    
+    // 新增一筆停車場
+    public ParkingLot save(ParkingLot parkingLot) {
+        return repository.save(parkingLot);
+    }
+
+    // 刪除一筆停車場
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
+    }
 }
