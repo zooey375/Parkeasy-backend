@@ -16,7 +16,7 @@ public class ParkingLotService {
     private ParkingLotRepository repository;
 
     // getAll()查詢全部停車場資料
-    public List<ParkingLot> findAll() {
+    public List<ParkingLot> getAll() {
         return repository.findAll();
     }
 

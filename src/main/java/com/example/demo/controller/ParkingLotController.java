@@ -20,7 +20,7 @@ public class ParkingLotController {
     // 查詢所有停車場
     @GetMapping
     public List<ParkingLot> getAllParkingLots() {
-        return service.findAll(); // 呼叫 service 去找資料
+        return service.getAll(); // ✅ 這裡呼叫的是 service 裡的 getAll()
     }
 
     // 根據條件查詢（名稱 / 類型 / 友善 / 價格）
