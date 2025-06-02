@@ -31,6 +31,8 @@ public class ParkingLotController {
         @RequestParam(required = false) Boolean friendly,
         @RequestParam(required = false) Integer maxprice
     ) {
+        System.out.println("收到前端傳來的 maxprice: " + maxprice);
+
         return service.search(name, type, friendly, maxprice);
     }
     
@@ -46,5 +48,5 @@ public class ParkingLotController {
         service.deleteById(id);	// deleteById 會幫我刪除一筆資料(JPA提供)
     }
     
-    
+   
 }
