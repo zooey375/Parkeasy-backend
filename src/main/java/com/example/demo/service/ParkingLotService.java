@@ -20,24 +20,21 @@ public class ParkingLotService {
         return repository.findAll();
     }
 
-    // 多條件查詢：名稱 / 種類 / 友善 / 價格
-    //serch(...) 根據多個條件過濾(名稱、類型、友善、價格)，條件可有可無。
-    public List<ParkingLot> search(String name, String type, Boolean friendly, String price) {  
-        return repository.findAll().stream() // 先從資料庫拿出所有停車場資料，接著用 .stream()進行「一筆一筆過濾條件」。 
+ // 多條件查詢：名稱 / 種類 / 友善 / 價格範圍
+    public List<ParkingLot> search(String name, String type, Boolean friendly, Integer maxprice) {
+        return repository.findAll().stream()
             .filter(p -> name == null || name.isEmpty() || 
-                         (p.getName() != null && p.getName().contains(name))) 
-            /* (上方)名稱模糊搜尋)；如果 name 是空的(使用者沒輸入)，就不過濾- GPT
-            如果有輸入 name 就會篩選名稱中「包含這個關鍵字」的停車場。
-            */
+                         (p.getName() != null && p.getName().contains(name)))
+            
             .filter(p -> type == null || type.isEmpty() || 
                          (p.getType() != null && p.getType().equals(type)))
             
             .filter(p -> friendly == null || 
                          (p.getFriendly() != null && p.getFriendly().equals(friendly)))
             
-            .filter(p -> price == null || price.isEmpty() || 
-                         (p.getPrice() != null && p.getPrice().equals(price)))
-            
+            .filter(p -> maxprice == null || 
+            			 (p.getPrice() != null && p.getPrice() <= maxprice))
+           
             .collect(Collectors.toList());
     }
     

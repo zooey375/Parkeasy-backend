@@ -13,7 +13,7 @@ Table name: ParkingLot
 +---------------+-----------------+-----------------+------------+---------------+-------------+---------+
 | ParkingLot_id | ParkingLot_name | ParkingLot_type |  friendly  |     price     | description | address |
 +---------------+-----------------+-----------------+------------+---------------+-------------+---------+
-|      1        |       中文      |  機車格、汽車格  | true/false | 免費/小時/每日 |    評論     |  連結   |
+|      1        |       中文      |  機車格、汽車格  | true/false |     0~100     |    評論     |  連結   |
 +---------------+-----------------+-----------------+------------+---------------+-------------+---------+
 */
 
@@ -38,8 +38,8 @@ public class ParkingLot {
     @Column(name = "friendly")
     private Boolean friendly; // 是否為友善（true/false）
 
-    @Column(name = "price") // 可為"免費"、"每小時"、"每日"
-    private String price;
+    @Column(name = "price") // 可為價格區間 0~200 元
+    private Integer price;
 
     @Column(name = "description")
     private String description;

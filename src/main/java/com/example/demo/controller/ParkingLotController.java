@@ -29,9 +29,9 @@ public class ParkingLotController {
         @RequestParam(required = false) String name,
         @RequestParam(required = false) String type,
         @RequestParam(required = false) Boolean friendly,
-        @RequestParam(required = false) String price
+        @RequestParam(required = false) Integer maxprice
     ) {
-        return service.search(name, type, friendly, price);
+        return service.search(name, type, friendly, maxprice);
     }
     
  // 新增一筆停車場
