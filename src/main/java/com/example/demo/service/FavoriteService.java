@@ -31,7 +31,8 @@ public class FavoriteService {
 
     // 移除收藏
     public void removeFavorite(Integer userId, Integer parkingLotId) {
-        favoriteRepository.deleteByUserIdAndParkingLotId(userId, parkingLotId);
+        favoriteRepository.findByUserIdAndParkingLotId(userId, parkingLotId)
+        	.ifPresent(favoriteRepository::delete); // 只有在找資料時才執行刪除，找不到就會跳過不會報錯。
     }
 
 
