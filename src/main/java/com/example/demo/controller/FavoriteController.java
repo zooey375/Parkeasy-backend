@@ -33,8 +33,17 @@ public class FavoriteController {
     }
 
 
-    // 取消收藏
-    @DeleteMapping("/remove")
+    // 取消收藏，用路徑參數不再用query string(因為一直失敗)
+    @DeleteMapping("/{userId}/{parkingLotId}")
+    public ResponseEntity<?> removeFavorite(
+        @PathVariable Integer userId, // 改成 @PathVariable 可避免query參數出錯，語意更清楚。
+        @PathVariable Integer parkingLotId
+    ) {
+        favoriteService.removeFavorite(userId, parkingLotId);
+        return ResponseEntity.ok("已取消收藏");
+    }
+    
+    /*@DeleteMapping("/remove")
     public ResponseEntity<?> removeFavorite(
             @RequestParam Integer userId,
             @RequestParam Integer parkingLotId
@@ -42,6 +51,8 @@ public class FavoriteController {
         favoriteService.removeFavorite(userId, parkingLotId); // ← 改對變數名稱
         return ResponseEntity.ok("已取消收藏");
     }
+  */
+    
 
     // 查詢使用者的收藏清單，但回傳「完整停車場資訊」
     @GetMapping("/{userId}")
