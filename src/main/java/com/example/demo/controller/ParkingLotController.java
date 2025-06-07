@@ -29,11 +29,11 @@ public class ParkingLotController {
         @RequestParam(required = false) String name,
         @RequestParam(required = false) String type,
         @RequestParam(required = false) Boolean friendly,
+        @RequestParam(required = false) Integer minprice,
         @RequestParam(required = false) Integer maxprice
     ) {
-        System.out.println("收到前端傳來的 maxprice: " + maxprice);
-
-        return service.search(name, type, friendly, maxprice);
+    	
+        return service.search(name, type, friendly, minprice, maxprice);
     }
     
  // 新增一筆停車場

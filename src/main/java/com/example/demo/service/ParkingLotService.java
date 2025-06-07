@@ -20,21 +20,35 @@ public class ParkingLotService {
         return repository.findAll();
     }
 
- // 多條件查詢：名稱 / 種類 / 友善 / 價格範圍
-    public List<ParkingLot> search(String name, String type, Boolean friendly, Integer maxprice) {
+ // 多條件查詢：名稱 / 種類 / 友善 / 價格範圍調整成下拉選單*2
+    /**
+     * 🔍 多條件搜尋方法（升級版）：
+     * @param name      停車場名稱（可部分比對）
+     * @param type      機車格或汽車格
+     * @param friendly  是否為友善
+     * @param minprice  最低價格（可為 null）
+     * @param maxprice  最高價格（可為 null）
+     * @return          符合條件的停車場清單
+     */
+    
+    public List<ParkingLot> search(String name, String type, Boolean friendly, Integer minprice, Integer maxprice) {
         return repository.findAll().stream()
+        	// 模糊比對名稱(如果有輸入)
             .filter(p -> name == null || name.isEmpty() || 
                          (p.getName() != null && p.getName().contains(name)))
-            
+            // 比對類型
             .filter(p -> type == null || type.isEmpty() || 
                          (p.getType() != null && p.getType().equals(type)))
-            
+            // 比對友善與否
             .filter(p -> friendly == null || 
                          (p.getFriendly() != null && p.getFriendly().equals(friendly)))
-            
-            .filter(p -> maxprice == null || 
-            			 (p.getPrice() != null && p.getPrice() <= maxprice))
-           
+            // 比對最低價格(如果有輸入)
+            .filter(p -> minprice == null || 
+            			 (p.getPrice() != null && p.getPrice() <= minprice))
+         // 比對最高價格（如果有輸入）
+            .filter(p -> maxprice == null ||
+                        (p.getPrice() != null && p.getPrice() <= maxprice))
+                       
             .collect(Collectors.toList());
     }
     
