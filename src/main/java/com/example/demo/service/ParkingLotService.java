@@ -4,6 +4,7 @@ package com.example.demo.service;
 import com.example.demo.model.entity.ParkingLot;	// 資料模型
 import com.example.demo.repository.ParkingLotRepository;	//資料庫操作工具
 import org.springframework.beans.factory.annotation.Autowired;	//讓 spring 自動幫我們建立 repository 的實例
+import org.springframework.boot.ExitCodeEvent;
 import org.springframework.stereotype.Service;	// java 的資料過濾工具
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class ParkingLotService {
                          (p.getFriendly() != null && p.getFriendly().equals(friendly)))
             // 比對最低價格(如果有輸入)
             .filter(p -> minprice == null || 
-            			 (p.getPrice() != null && p.getPrice() <= minprice))
+            			 (p.getPrice() != null && p.getPrice() >= minprice))
          // 比對最高價格（如果有輸入）
             .filter(p -> maxprice == null ||
                         (p.getPrice() != null && p.getPrice() <= maxprice))
@@ -61,4 +62,23 @@ public class ParkingLotService {
     public void deleteById(Integer id) {
         repository.deleteById(id);
     }
+    
+    // 修改資料方法
+    public ParkingLot update(Integer id, ParkingLot updatedLot) {
+    	ParkingLot existing = repository.findById(id)
+    			.orElseThrow(() -> new RuntimeException("找不到該筆資料"));
+    	
+    	existing.setName(updatedLot.getName());
+    	existing.setType(updatedLot.getType());
+    	existing.setFriendly(updatedLot.getFriendly());
+    	existing.setPrice(updatedLot.getPrice());
+    	existing.setAddress(updatedLot.getAddress());
+    	existing.setDescription(updatedLot.getDescription());
+    	existing.setLatitude(updatedLot.getLatitude());
+    	existing.setLongitude(updatedLot.getLongitude());
+    	existing.setMapUrl(updatedLot.getMapUrl());
+    	
+    	return repository.save(existing);
+    }
+    
 }

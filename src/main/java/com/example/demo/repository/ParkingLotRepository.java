@@ -23,6 +23,6 @@ public interface ParkingLotRepository extends JpaRepository<ParkingLot, Integer>
     // 3.友善停車場查詢（true/false）
     List<ParkingLot> findByFriendly(Boolean friendly);
 
-    // 4.收費方式查詢（調整成價錢區間 0~200 元）
+    // 4.收費方式查詢（調整成價錢區間 0~100 元）
     List<ParkingLot> findByPriceBetween(Integer min, Integer max);
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @RestController // API 控制器，使用者可以透過網址來呼叫
 @RequestMapping("/parking-lots")
 @CrossOrigin(origins = "*") // 讓前端可以 fetch
+
 public class ParkingLotController {
 
     @Autowired
@@ -20,7 +21,7 @@ public class ParkingLotController {
     // 查詢所有停車場
     @GetMapping
     public List<ParkingLot> getAllParkingLots() {
-        return service.getAll(); // ✅ 這裡呼叫的是 service 裡的 getAll()
+        return service.getAll(); // 這裡呼叫的是 service 裡的 getAll()
     }
 
     // 根據條件查詢（名稱 / 類型 / 友善 / 價格）
@@ -48,5 +49,11 @@ public class ParkingLotController {
         service.deleteById(id);	// deleteById 會幫我刪除一筆資料(JPA提供)
     }
     
+    
+    // 修改資料功能
+    @RequestMapping("/{id}")
+    public ParkingLot update(@PathVariable Integer id, @RequestBody ParkingLot updatedLot) {
+    	return service.update(id, updatedLot);
+    }
    
 }
