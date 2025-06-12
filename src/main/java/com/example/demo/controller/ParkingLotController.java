@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
- // 這三項是設定標籤
 @RestController // API 控制器，使用者可以透過網址來呼叫
-@RequestMapping("/parking-lots")
-@CrossOrigin(origins = "*") // 讓前端可以 fetch
-
+@RequestMapping("/api/parkinglots")
+@CrossOrigin(origins = "*") // 讓前端可以 fetch(允許跨域請求)
 public class ParkingLotController {
 
     @Autowired
@@ -51,9 +49,10 @@ public class ParkingLotController {
     
     
     // 修改資料功能
-    @RequestMapping("/{id}")
+    @PutMapping("/{id}") // 對應 PUT 請求
     public ParkingLot update(@PathVariable Integer id, @RequestBody ParkingLot updatedLot) {
-    	return service.update(id, updatedLot);
+        return service.update(id, updatedLot);
     }
+
    
 }
