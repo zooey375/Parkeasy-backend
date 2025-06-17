@@ -20,6 +20,8 @@ public class Member {
 	private String username;
 	private String password;
 	private String email;
+	private boolean isAdmin = false; // 預設為非管理者
+
 	
 
 }
