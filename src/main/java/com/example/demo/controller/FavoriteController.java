@@ -28,7 +28,7 @@ public class FavoriteController {
             @RequestParam Integer userId,
             @RequestParam Integer parkingLotId
     ) {
-        favoriteService.addFavorite(userId, parkingLotId); // ← 改對變數名稱
+        favoriteService.addFavorite(userId, parkingLotId); // 改對變數名稱
         return ResponseEntity.ok("已加入收藏");
     }
 
@@ -43,22 +43,11 @@ public class FavoriteController {
         return ResponseEntity.ok("已取消收藏");
     }
     
-    /*@DeleteMapping("/remove")
-    public ResponseEntity<?> removeFavorite(
-            @RequestParam Integer userId,
-            @RequestParam Integer parkingLotId
-    ) {
-        favoriteService.removeFavorite(userId, parkingLotId); // ← 改對變數名稱
-        return ResponseEntity.ok("已取消收藏");
-    }
-  */
-    
 
     // 查詢使用者的收藏清單，但回傳「完整停車場資訊」
     @GetMapping("/{userId}")
     public ResponseEntity<List<ParkingLot>> getFavorites(@PathVariable Integer userId) {
-        List<Favorite> favorites = favoriteService.getFavoritesByUser(userId); // ← 補這行
-
+        List<Favorite> favorites = favoriteService.getFavoritesByUser(userId); 
         // 透過收藏的 parkingLotId 去找對應的停車場資訊
     	List<ParkingLot> parkingLots = favorites.stream()
                 .map(fav -> parkingLotService.getAll().stream()

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
-//Spring JPA
+// Spring JPA
 @Repository
 public interface ParkingLotRepository extends JpaRepository<ParkingLot, Integer> {
 	// 預設會實現 CRUD
