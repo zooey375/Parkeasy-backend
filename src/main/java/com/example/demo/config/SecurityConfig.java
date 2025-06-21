@@ -22,9 +22,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/register").permitAll()
+                .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/me").permitAll()
                 .requestMatchers("/api/parkinglots/**").permitAll()
                 .requestMatchers("/api/favorites/**").permitAll()
-                .requestMatchers("/login", "/logout").permitAll() // 若使用 formLogin 請放行
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

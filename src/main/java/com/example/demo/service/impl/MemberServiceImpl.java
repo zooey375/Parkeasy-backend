@@ -17,28 +17,33 @@ public class MemberServiceImpl implements MemberService{
 	private  MemberRepository memberRepository;
 
 	@Override
-	public void addMember(String username, String password, String Email) {
-		Optional<Member> memberOpt=memberRepository.findByUsername(username);
-		if(memberOpt.isPresent()) {
-			throw new UserExistException("帳號已被註冊");
-		}
-		if(memberOpt.isEmpty()) {
-			Member member=new Member();
-					String salt;
-					salt=HashUtil.generateSalt();
-					String passwordHash=HashUtil.hashPassword(password, salt);
-					
-					member.setUsername(username);
-					member.setHashpassword(passwordHash);
-					member.setEmail(Email);
-					member.setRole("USER");
-					memberRepository.save(member);
-		}
-			
-		}
-		
-		
+	public boolean addMember(String username, String password, String email) {
+	    Optional<Member> memberOpt = memberRepository.findByUsername(username);
+
+	    if (memberOpt.isPresent()) {
+	        return false; // 帳號已存在
+	    }
+
+	    // 新增會員
+	    String salt = HashUtil.generateSalt();                     // 產生鹽巴
+	    String passwordHash = HashUtil.hashPassword(password, salt); // 加密密碼
+
+	    Member member = new Member();
+	    member.setUsername(username);
+	    member.setPassword(passwordHash);
+	    member.setSalt(salt); // 加這一行才會把 salt 存入資料庫
+	    member.setEmail(email);
+	    member.setRole("USER");
+	    member.setConfirmEmail(false); // 初始為未驗證
+	    memberRepository.save(member);
+	
+	    return true; // 成功註冊
+
 	}
+}
+		
+		
+	
 	
 	
 

@@ -29,7 +29,8 @@ public class CertServiceImpl implements CertService{
 		Member member=memberRepository.findByUsername(username).orElseThrow(()->new UserNotFoundException("找不到使用者"));
 		
 		// 2. 驗證密碼(使用加密比對)
-		 if (!password.equals(member.getHashpassword())) { // 暫時不加密版本
+		 //if (!password.equals(member.getHashpassword())) { // 暫時不加密版本
+		if (!passwordEncoder.matches(password, member.getPassword())) {
 		        throw new PasswordInvalidException("密碼錯誤");
 		 }
 		

@@ -27,8 +27,8 @@ public class Member {
 	@Column(nullable = false, unique = true)
 	private String username;	// 使用者帳號
 	
-	@Column(nullable = false)
-	private String hashpassword;	// 使用者密碼
+	@Column(nullable = false, name = "hashpassword")
+	private String password;	// 使用者密碼
 	private String salt;// 鹽巴
 	private String role;		// 預設角色(admin/user)
 	
