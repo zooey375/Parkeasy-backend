@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.exception.PasswordInvalidException;
 
+// 導向前端頁面
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -91,12 +94,15 @@ public class LoginController {
         
      // Email 驗證
      @GetMapping("/verify")
-     public ResponseEntity<ApiResponse<String>> verifyEmail(@RequestParam("token") String token) {
+     public ResponseEntity<Void> verifyEmail(@RequestParam("token") String token) {
     	    Optional<Member> memberOpt = memberRepository.findByVerificationToken(token);
 
     	    if (memberOpt.isEmpty()) {
-    	        return ResponseEntity.badRequest()
-    	                .body(ApiResponse.error(400, "驗證失敗：無效的驗證連結"));
+    	        // 驗證失敗時導向註冊頁或錯誤提示
+    	        return ResponseEntity.status(HttpStatus.FOUND)
+    	        		// HttpHeaders.LOCATION -> 導去前端網址
+    	                .header(HttpHeaders.LOCATION, "http://localhost:5173/register?verify=fail")
+    	                .build();
     	    }
 
     	    Member member = memberOpt.get();
@@ -104,7 +110,10 @@ public class LoginController {
     	    member.setVerificationToken(null); // 清除 token 避免重複點擊
     	    memberRepository.save(member);
 
-    	    return ResponseEntity.ok(ApiResponse.success("✅ 驗證成功，您現在可以登入了！", null));
+    	    // 驗證成功 → 導向前端 EmailConfirmSuccess 頁面
+    	    return ResponseEntity.status(HttpStatus.FOUND)
+    	            .header(HttpHeaders.LOCATION, "http://localhost:5173/EmailConfirmSuccess")
+    	            .build();
     	}
 }
 

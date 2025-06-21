@@ -36,9 +36,10 @@ public class MemberServiceImpl implements MemberService{
 	        return false; // 帳號已存在
 	    }
 	    
-	    // 加密密碼
+	    // === 加密密碼 ===
 	    String salt = HashUtil.generateSalt();                     // 產生鹽巴
 	    String passwordHash = HashUtil.hashPassword(password, salt); // 加密密碼
+	    String token = UUID.randomUUID().toString(); // 先產生 token
 
 	    // 建立帳號資料
 	    Member member = new Member();
@@ -48,9 +49,14 @@ public class MemberServiceImpl implements MemberService{
 	    member.setEmail(email);
 	    member.setRole("USER");
 	    member.setConfirmEmail(false); // 預設是未驗證
-	    memberRepository.save(member);
+	    member.setVerificationToken(token); // 一次設好所有欄位
 	    
-	    // 產生驗證 token 並儲存
+	    memberRepository.save(member);	// 指呼叫一次 save()
+
+	    emailService.sendVerificationEmail(email, token);
+
+	    
+	    /* 產生驗證 token 並儲存
 	    String token = UUID.randomUUID().toString();
 	    member.setVerificationToken(token);
 	    
@@ -59,6 +65,7 @@ public class MemberServiceImpl implements MemberService{
 	    
 	    // 寄送驗證信
 	    emailService.sendVerificationEmail(email, token);
+	    */
 	    
 	    return true; // 成功註冊
 
