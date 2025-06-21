@@ -36,13 +36,16 @@ public class LoginController {
             return ResponseEntity.ok(ApiResponse.success("登入成功", cert));
         } catch (UserNotFoundException | PasswordInvalidException e) {
         	// 帳號或密碼錯誤
-            return ResponseEntity.status(401).body(ApiResponse.error(401, e.getMessage()));
+            return ResponseEntity.status(401)
+            		.body(ApiResponse.error(401, e.getMessage()));
         } catch (RuntimeException e) {
         	// 信箱未驗證或其他自定義錯誤
-            return ResponseEntity.status(403).body(ApiResponse.error(403, e.getMessage()));
+            return ResponseEntity.status(403)
+            		.body(ApiResponse.error(403, e.getMessage()));
         } catch (Exception e) {
         	// 不明錯誤
-            return ResponseEntity.status(500).body(ApiResponse.error(500, "伺服器錯誤"));
+            return ResponseEntity.status(500)
+            		.body(ApiResponse.error(500, "伺服器錯誤"));
         }
     }
 

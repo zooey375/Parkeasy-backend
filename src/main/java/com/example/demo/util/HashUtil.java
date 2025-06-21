@@ -8,7 +8,7 @@ public class HashUtil {
 	// 產生隨機鹽
 	public static String generateSalt()  {
 		SecureRandom secureRandom = new SecureRandom();
-		byte[] salt = new byte[16];
+		byte[] salt = new byte[16]; // 產生 16byte 隨機鹽並轉成 Base64 字串。
 		secureRandom.nextBytes(salt);
 		// 將 byte[] 透過 Base64 編碼方便儲存
 		return Base64.getEncoder().encodeToString(salt);
