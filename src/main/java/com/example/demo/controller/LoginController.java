@@ -13,12 +13,20 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.exception.PasswordInvalidException;
 
 // 導向前端頁面
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+
+// 建立 Spring Security 的認證資訊
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -41,8 +49,19 @@ public class LoginController {
         String password = member.getPassword();
 
         try {
+        	// 驗證帳號密碼
             UserCert cert = certService.login(username, password);
-            session.setAttribute("loginUser", cert); // 存入 Session
+            
+            // 設定 Spring Security 的使用者認證與角色
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+            	cert.getUsername(),
+                null,
+                List.of(new SimpleGrantedAuthority("ROLE_" + cert.getRole())) // 角色前綴需加 ROLE_
+            );
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            // 存入 Session
+            session.setAttribute("loginUser", cert); 
             return ResponseEntity.ok(ApiResponse.success("登入成功", cert));
         } catch (UserNotFoundException | PasswordInvalidException e) {
         	// 帳號或密碼錯誤
@@ -84,10 +103,11 @@ public class LoginController {
     }
 
    
-     // 登出：移除 Session
+     // 登出：移除 Session 與 Spring Security 登入資訊
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logout(HttpSession session) {
         session.invalidate();
+        SecurityContextHolder.clearContext(); // 清除 Spring Security 的登入狀態
         return ResponseEntity.ok(ApiResponse.success("已登出", null));
     }
         

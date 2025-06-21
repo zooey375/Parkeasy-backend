@@ -56,17 +56,6 @@ public class MemberServiceImpl implements MemberService{
 	    emailService.sendVerificationEmail(email, token);
 
 	    
-	    /* 產生驗證 token 並儲存
-	    String token = UUID.randomUUID().toString();
-	    member.setVerificationToken(token);
-	    
-	    // 儲存到資料庫
-	    memberRepository.save(member);
-	    
-	    // 寄送驗證信
-	    emailService.sendVerificationEmail(email, token);
-	    */
-	    
 	    return true; // 成功註冊
 
 	}

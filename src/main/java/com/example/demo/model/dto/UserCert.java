@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Getter
+
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCert {
     private Long userId;
+    private String username;
+    private String email;
     private String role;
 }

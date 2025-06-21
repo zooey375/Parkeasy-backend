@@ -27,6 +27,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/me").permitAll()
                 .requestMatchers("/api/parkinglots/**").permitAll()
                 .requestMatchers("/api/favorites/**").permitAll()
+                //.requestMatchers("/api/admin/users").permitAll()
+                .requestMatchers("/api/admin/**").permitAll()
+
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

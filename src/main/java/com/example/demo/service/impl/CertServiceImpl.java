@@ -10,7 +10,6 @@ import com.example.demo.service.CertService;
 import com.example.demo.util.HashUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,7 +28,7 @@ public class CertServiceImpl implements CertService{
 		// 用查到的 salt 加密使用者輸入的密碼
 	    String hashedInputPassword = HashUtil.hashPassword(password, member.getSalt());
 		
-		// 2. 驗證密碼(使用加密比對)
+		// 2. 驗證密碼(使用 salt 雜湊後比對)
 		 //if (!password.equals(member.getHashpassword())) { // 暫時不加密版本
 	    if (!hashedInputPassword.equals(member.getPassword())) {
 		        throw new PasswordInvalidException("密碼錯誤");
@@ -41,8 +40,13 @@ public class CertServiceImpl implements CertService{
 			 throw new RuntimeException("請先完成信箱驗證");
 		 }
 		 
-		// 4. 登入成功，回應 UserCert
-		return new UserCert(member.getId(), member.getRole());
+		// 4. 登入成功，回傳完整 UserCert
+		return new UserCert(
+				member.getId(),
+                member.getUsername(),
+                member.getEmail(),
+				member.getRole()
+				);
 	}
 
 }
