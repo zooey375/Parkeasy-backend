@@ -2,10 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.model.dto.UserCert;
 import com.example.demo.model.entity.Member;
+import com.example.demo.repository.MemberRepository;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.CertService;
 import com.example.demo.service.MemberService;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +26,9 @@ public class LoginController {
 
     @Autowired
     private CertService certService;
+    
+    @Autowired
+    private MemberRepository memberRepository;
 
 
      // 登入：接收 username、password，驗證後寫入 Session
@@ -64,7 +71,6 @@ public class LoginController {
 
 
      // 取得目前登入資訊
-
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<UserCert>> getLoginUser(HttpSession session) {
         UserCert cert = (UserCert) session.getAttribute("loginUser");
@@ -81,5 +87,24 @@ public class LoginController {
         session.invalidate();
         return ResponseEntity.ok(ApiResponse.success("已登出", null));
     }
+        
+        
+     // Email 驗證
+     @GetMapping("/verify")
+     public ResponseEntity<ApiResponse<String>> verifyEmail(@RequestParam("token") String token) {
+    	    Optional<Member> memberOpt = memberRepository.findByVerificationToken(token);
+
+    	    if (memberOpt.isEmpty()) {
+    	        return ResponseEntity.badRequest()
+    	                .body(ApiResponse.error(400, "驗證失敗：無效的驗證連結"));
+    	    }
+
+    	    Member member = memberOpt.get();
+    	    member.setConfirmEmail(true); // 標記為已驗證
+    	    member.setVerificationToken(null); // 清除 token 避免重複點擊
+    	    memberRepository.save(member);
+
+    	    return ResponseEntity.ok(ApiResponse.success("✅ 驗證成功，您現在可以登入了！", null));
+    	}
 }
 

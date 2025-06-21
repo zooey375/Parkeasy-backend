@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/register").permitAll()
                 .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/verify").permitAll()
                 .requestMatchers("/api/auth/me").permitAll()
                 .requestMatchers("/api/parkinglots/**").permitAll()
                 .requestMatchers("/api/favorites/**").permitAll()

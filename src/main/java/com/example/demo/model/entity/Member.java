@@ -36,4 +36,7 @@ public class Member {
 	private String email;					// 信箱
 	private boolean confirmEmail = false;	// 信箱驗證
 	
+	@Column(nullable = true)
+	private String verificationToken; // 驗證用 Token
+	
 }
