@@ -53,7 +53,7 @@ public class MemberServiceImpl implements MemberService{
 	    
 	    memberRepository.save(member);	// 指呼叫一次 save()
 
-	    emailService.sendVerificationEmail(email, token);
+	   // emailService.sendVerificationEmail(email, token);
 
 	    
 	    return true; // 成功註冊

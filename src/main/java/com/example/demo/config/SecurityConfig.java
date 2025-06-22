@@ -5,10 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.*;
 
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Configuration
@@ -17,6 +19,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+        	.sessionManagement()
+        	.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        	.and()
             .cors(Customizer.withDefaults()) // 建議用 Customizer，避免 CORS 不生效
             .csrf().disable()
             .authorizeHttpRequests(auth -> auth
@@ -26,9 +31,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/verify").permitAll()
                 .requestMatchers("/api/auth/me").permitAll()
                 .requestMatchers("/api/parkinglots/**").permitAll()
-                .requestMatchers("/api/favorites/**").permitAll()
-                //.requestMatchers("/api/admin/users").permitAll()
-                .requestMatchers("/api/admin/**").permitAll()
+                .requestMatchers("/api/favorites/**").authenticated()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
                 .anyRequest().authenticated()
             )
@@ -39,7 +43,13 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
-            );
+            )
+            .exceptionHandling() 
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 回傳 401 而不是重導
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"請先登入\"}");
+            });
 
         return http.build();
     }
@@ -47,19 +57,13 @@ public class SecurityConfig {
     // 跨域設定（前端 http://localhost:5173 可存取）
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // 前端要加 withCredentials: true
-
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // React 預設 port
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true); // 重點：允許帶 cookie
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-    
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

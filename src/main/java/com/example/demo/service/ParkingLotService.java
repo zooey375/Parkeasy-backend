@@ -53,6 +53,10 @@ public class ParkingLotService {
             .collect(Collectors.toList());
     }
     
+    public ParkingLot getById(Integer id) {
+        return repository.findById(id).orElse(null); 
+    }
+    
     // 新增一筆停車場
     public ParkingLot save(ParkingLot parkingLot) {
         return repository.save(parkingLot);

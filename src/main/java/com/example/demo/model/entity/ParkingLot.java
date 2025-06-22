@@ -2,10 +2,11 @@
 
 package com.example.demo.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 /**
  * 
@@ -25,20 +26,20 @@ Table name: ParkingLot
 public class ParkingLot {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 設定主建宇自動編號
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "type") // 可為"機車格"、"汽車格"
+    @Column(name = "type")
     private String type;
 
     @Column(name = "friendly")
-    private Boolean friendly; // 是否為友善（true/false）
+    private Boolean friendly;
 
-    @Column(name = "price") // 可為價格區間 0~200 元
+    @Column(name = "price")
     private Integer price;
 
     @Column(name = "description")
@@ -48,11 +49,16 @@ public class ParkingLot {
     private String address;
 
     @Column(name = "map_url")
-    private String mapUrl; // 放 Google Map 連結用
-    
-    @Column(name = "latitude") //Y-緯度座標
+    private String mapUrl;
+
+    @Column(name = "latitude")
     private Double latitude;
 
-    @Column(name = "longitude") //X-經度座標
+    @Column(name = "longitude")
     private Double longitude;
+
+    // ✅ 一個停車場可以被很多人收藏
+    @OneToMany(mappedBy = "parkingLot", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // 避免前端請求時進入無限循環
+    private List<Favorite> favorites;
 }

@@ -31,9 +31,9 @@ public class EmailService {
 
             mailSender.send(message);
 
-            System.out.println("✅ 驗證信已寄出至: " + email);
+            System.out.println("驗證信已寄出至: " + email);
         } catch (MessagingException e) {
-            System.err.println("❌ 發送驗證信失敗：" + e.getMessage());
+            System.err.println("發送驗證信失敗：" + e.getMessage());
             e.printStackTrace();
         }
     }

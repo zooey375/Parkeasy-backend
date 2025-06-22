@@ -1,62 +1,51 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.dto.UserCert;
 import com.example.demo.model.entity.Favorite;
-import com.example.demo.model.entity.ParkingLot;
 import com.example.demo.service.FavoriteService;
-import com.example.demo.service.ParkingLotService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/favorites")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class FavoriteController {
 
     @Autowired
     private FavoriteService favoriteService;
-    
-    //製作完整資料合併
-    @Autowired
-    private ParkingLotService parkingLotService;
 
-    // 新增收藏
-    @PostMapping("/add")
-    public ResponseEntity<?> addFavorite(
-            @RequestParam Integer userId,
-            @RequestParam Integer parkingLotId
-    ) {
-        favoriteService.addFavorite(userId, parkingLotId); // 改對變數名稱
-        return ResponseEntity.ok("已加入收藏");
+    // 取得收藏
+    @GetMapping
+    public List<Favorite> getMyFavorites(HttpSession session) {
+        UserCert loginUser = (UserCert) session.getAttribute("user");
+        if (loginUser == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "請先登入");
+        }
+        return favoriteService.getByUserId(loginUser.getId());
     }
 
-
-    // 取消收藏，用路徑參數不再用query string(因為一直失敗)
-    @DeleteMapping("/{userId}/{parkingLotId}")
-    public ResponseEntity<?> removeFavorite(
-        @PathVariable Integer userId, // 改成 @PathVariable 可避免query參數出錯，語意更清楚。
-        @PathVariable Integer parkingLotId
-    ) {
-        favoriteService.removeFavorite(userId, parkingLotId);
-        return ResponseEntity.ok("已取消收藏");
+    // 加入收藏
+    @PostMapping("/{parkingLotId}")
+    public void addFavorite(@PathVariable Integer parkingLotId, HttpSession session) {
+        UserCert loginUser = (UserCert) session.getAttribute("user");
+        if (loginUser == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "請先登入");
+        }
+        favoriteService.addFavorite(loginUser.getId(), parkingLotId);
     }
-    
 
-    // 查詢使用者的收藏清單，但回傳「完整停車場資訊」
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<ParkingLot>> getFavorites(@PathVariable Integer userId) {
-        List<Favorite> favorites = favoriteService.getFavoritesByUser(userId); 
-        // 透過收藏的 parkingLotId 去找對應的停車場資訊
-    	List<ParkingLot> parkingLots = favorites.stream()
-                .map(fav -> parkingLotService.getAll().stream()
-                        .filter(p -> p.getId().equals(fav.getParkingLotId()))
-                        .findFirst()
-                        .orElse(null))
-                .filter(p -> p != null) // 過濾掉查不到的
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(parkingLots);
+    // 移除收藏
+    @DeleteMapping("/{parkingLotId}")
+    public void removeFavorite(@PathVariable Integer parkingLotId, HttpSession session) {
+        UserCert loginUser = (UserCert) session.getAttribute("user");
+        if (loginUser == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "請先登入");
+        }
+        favoriteService.removeFavorite(loginUser.getId(), parkingLotId);
     }
 }

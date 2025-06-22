@@ -54,5 +54,9 @@ public class ParkingLotController {
         return service.update(id, updatedLot);
     }
 
-   
+    
+ // 補上這一段即可讓 FavoriteController 使用
+    public ParkingLot getById(@PathVariable Integer id) {
+        return service.getById(id); // ⚠️ 這會呼叫你在 ParkingLotService 新增的方法
+    }
 }

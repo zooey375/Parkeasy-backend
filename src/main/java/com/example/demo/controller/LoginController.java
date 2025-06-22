@@ -61,7 +61,7 @@ public class LoginController {
             SecurityContextHolder.getContext().setAuthentication(auth);
 
             // 存入 Session
-            session.setAttribute("loginUser", cert); 
+            session.setAttribute("user", cert); 
             return ResponseEntity.ok(ApiResponse.success("登入成功", cert));
         } catch (UserNotFoundException | PasswordInvalidException e) {
         	// 帳號或密碼錯誤
@@ -95,11 +95,12 @@ public class LoginController {
      // 取得目前登入資訊
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<UserCert>> getLoginUser(HttpSession session) {
-        UserCert cert = (UserCert) session.getAttribute("loginUser");
+    	UserCert cert = (UserCert) session.getAttribute("user"); 
+    	
         if (cert == null) {
             return ResponseEntity.status(401).body(ApiResponse.error(401, "尚未登入"));
         }
-        return ResponseEntity.ok(ApiResponse.success("目前登入資訊", cert));
+        return ResponseEntity.ok(ApiResponse.success("登入成功", cert));
     }
 
    

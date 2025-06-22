@@ -1,11 +1,14 @@
 package com.example.demo.service;
 
 import com.example.demo.model.entity.Favorite;
+import com.example.demo.model.entity.Member;
+import com.example.demo.model.entity.ParkingLot;
 import com.example.demo.repository.FavoriteRepository;
+import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -14,30 +17,42 @@ public class FavoriteService {
     @Autowired
     private FavoriteRepository favoriteRepository;
 
-    // 新增收藏（如果還沒收藏過）
-    public void addFavorite(Integer userId, Integer parkingLotId) {
-        boolean notExists = favoriteRepository
-                .findByUserIdAndParkingLotId(userId, parkingLotId)
-                .isEmpty();
+    @Autowired
+    private ParkingLotRepository parkingLotRepository;
 
-        if (notExists) {
-            Favorite favorite = new Favorite();
-            favorite.setUserId(userId);
-            favorite.setParkingLotId(parkingLotId);
-            favorite.setCreatedAt(LocalDateTime.now());
-            favoriteRepository.save(favorite);
+    @Autowired
+    private MemberRepository memberRepository;
+
+    // 查詢指定使用者的所有收藏
+    public List<Favorite> getByUserId(Long userId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("找不到使用者"));
+        return favoriteRepository.findByMember(member);
+    }
+
+    // 新增收藏
+    public void addFavorite(Long userId, Integer parkingLotId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("找不到使用者"));
+
+        ParkingLot lot = parkingLotRepository.findById(parkingLotId)
+                .orElseThrow(() -> new RuntimeException("找不到指定的停車場"));
+
+        Favorite favorite = new Favorite();
+        favorite.setMember(member);
+        favorite.setParkingLot(lot);
+        favoriteRepository.save(favorite);
+    }
+
+    // 取消收藏
+    public void removeFavorite(Long userId, Integer parkingLotId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("找不到使用者"));
+
+        Favorite fav = favoriteRepository.findByMemberAndParkingLotId(member, parkingLotId);
+        if (fav != null) {
+            favoriteRepository.delete(fav);
         }
     }
-
-    // 移除收藏
-    public void removeFavorite(Integer userId, Integer parkingLotId) {
-        favoriteRepository.findByUserIdAndParkingLotId(userId, parkingLotId)
-        	.ifPresent(favoriteRepository::delete); // 只有在找資料時才執行刪除，找不到就會跳過不會報錯。
-    }
-
-
-    // 查詢某使用者所有收藏
-    public List<Favorite> getFavoritesByUser(Integer userId) {
-        return favoriteRepository.findByUserId(userId);
-    }
 }
+
