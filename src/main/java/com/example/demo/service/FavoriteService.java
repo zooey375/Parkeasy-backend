@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.dto.FavoriteDTO;
 import com.example.demo.model.entity.Favorite;
 import com.example.demo.model.entity.Member;
 import com.example.demo.model.entity.ParkingLot;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FavoriteService {
@@ -18,25 +20,22 @@ public class FavoriteService {
     private FavoriteRepository favoriteRepository;
 
     @Autowired
-    private ParkingLotRepository parkingLotRepository;
-
-    @Autowired
     private MemberRepository memberRepository;
 
-    // 查詢指定使用者的所有收藏
-    public List<Favorite> getByUserId(Long userId) {
-        Member member = memberRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("找不到使用者"));
-        return favoriteRepository.findByMember(member);
+    @Autowired
+    private ParkingLotRepository parkingLotRepository;
+
+    // 改用 userId 查詢
+    public List<FavoriteDTO> getFavoritesByUserId(Long userId) {
+        List<Favorite> favorites = favoriteRepository.findByMemberId(userId);
+        return favorites.stream()
+                .map(fav -> new FavoriteDTO(fav.getParkingLot()))
+                .collect(Collectors.toList());
     }
 
-    // 新增收藏
     public void addFavorite(Long userId, Integer parkingLotId) {
-        Member member = memberRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("找不到使用者"));
-
-        ParkingLot lot = parkingLotRepository.findById(parkingLotId)
-                .orElseThrow(() -> new RuntimeException("找不到指定的停車場"));
+        Member member = memberRepository.findById(userId).orElseThrow();
+        ParkingLot lot = parkingLotRepository.findById(parkingLotId).orElseThrow();
 
         Favorite favorite = new Favorite();
         favorite.setMember(member);
@@ -44,15 +43,8 @@ public class FavoriteService {
         favoriteRepository.save(favorite);
     }
 
-    // 取消收藏
     public void removeFavorite(Long userId, Integer parkingLotId) {
-        Member member = memberRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("找不到使用者"));
-
-        Favorite fav = favoriteRepository.findByMemberAndParkingLotId(member, parkingLotId);
-        if (fav != null) {
-            favoriteRepository.delete(fav);
-        }
+        favoriteRepository.deleteByMemberIdAndParkingLotId(userId, parkingLotId);
     }
 }
 

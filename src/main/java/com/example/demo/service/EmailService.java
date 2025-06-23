@@ -3,6 +3,7 @@ package com.example.demo.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     public void sendVerificationEmail(String email, String token) {
-        String subject = "請驗證您的帳號";
+        String subject = "【Parkeasy】帳號開通通知";
         String verifyUrl = "http://localhost:8086/api/auth/verify?token=" + token;
         String content = "<p>親愛的使用者，您好：</p>"
                 + "<p>請點擊以下連結完成帳號驗證：</p>"
@@ -37,4 +38,18 @@ public class EmailService {
             e.printStackTrace();
         }
     }
+    
+    // 忘記密碼，新增寄信邏輯
+    public void sendResetPasswordEmail(String toEmail, String resetLink) {
+        String subject = "【Parkeasy】重設密碼通知";
+        String content = "您好，請點擊以下連結以重設您的密碼（30 分鐘內有效）：\n" + resetLink;
+        
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject(subject);
+        message.setText(content);
+
+        mailSender.send(message);
+    }
+
 }

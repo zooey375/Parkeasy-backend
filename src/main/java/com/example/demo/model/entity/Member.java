@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -34,8 +35,15 @@ public class Member {
     @Column(nullable = true)
     private String verificationToken;
 
-    // ✅ 一位會員可以收藏多筆停車場
+    // 一位會員可以收藏多筆停車場
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference // 和 Favorite 的 @JsonBackReference 配對，避免無限遞迴
     private List<Favorite> favorites;
+    
+    // 建立忘記密碼
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "token_expiry")
+    private LocalDateTime tokenExpiry;
 }

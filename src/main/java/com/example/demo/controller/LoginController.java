@@ -1,14 +1,20 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.dto.ForgotPasswordRequest;
+import com.example.demo.model.dto.ResetPasswordRequest;
 import com.example.demo.model.dto.UserCert;
 import com.example.demo.model.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.CertService;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.MemberService;
+import com.example.demo.util.HashUtil;
+
 import jakarta.servlet.http.HttpSession;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +32,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -40,6 +47,10 @@ public class LoginController {
     
     @Autowired
     private MemberRepository memberRepository;
+    
+
+    @Autowired
+    private EmailService emailService;
 
 
      // 登入：接收 username、password，驗證後寫入 Session
@@ -77,7 +88,7 @@ public class LoginController {
             		.body(ApiResponse.error(500, "伺服器錯誤"));
         }
     }
-
+    
     
      // 註冊：接收 username、password、email，新增帳號
     @PostMapping("/register")
@@ -136,5 +147,64 @@ public class LoginController {
     	            .header(HttpHeaders.LOCATION, "http://localhost:5173/EmailConfirmSuccess")
     	            .build();
     	}
+     
+     // 忘記密碼
+     @PostMapping("/forgot-password")
+     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+         Optional<Member> memberOpt = memberRepository.findByEmail(request.getEmail());
+
+         if (memberOpt.isEmpty()) {
+             return ResponseEntity.badRequest().body("查無此 Email");
+         }
+
+         Member member = memberOpt.get();
+
+         // 產生 Token 與過期時間
+         String token = UUID.randomUUID().toString();
+         member.setResetToken(token);
+         member.setTokenExpiry(LocalDateTime.now().plusMinutes(30));
+         memberRepository.save(member);
+
+         // 發送信件
+         String resetLink = "http://localhost:5173/reset-password?token=" + token;
+         emailService.sendResetPasswordEmail(member.getEmail(), resetLink);
+         
+         
+         System.out.println("🔑 測試用 token = " + token); // 印出 token 到 console
+
+         return ResponseEntity.ok("已寄出重設密碼信件");
+         
+     }
+      
+     // 使用者修改密碼
+     @PostMapping("/reset-password")
+     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+         Optional<Member> memberOpt = memberRepository.findByResetToken(request.getToken());
+
+         if (memberOpt.isEmpty()) {
+             return ResponseEntity.badRequest().body("Token 無效，請重新申請重設密碼");
+         }
+
+         Member member = memberOpt.get();
+
+         // 驗證 token 是否過期
+         if (member.getTokenExpiry() == null || member.getTokenExpiry().isBefore(LocalDateTime.now())) {
+             return ResponseEntity.badRequest().body("Token 已過期，請重新申請重設密碼");
+         }
+
+         // 設定新密碼（記得 hash 處理）
+         String salt = member.getSalt(); // 使用原本的 salt
+         String hashed = HashUtil.hashPassword(request.getNewPassword(), salt);
+         member.setPassword(hashed);
+
+         // 清除 token 與過期時間
+         member.setResetToken(null);
+         member.setTokenExpiry(null);
+
+         memberRepository.save(member);
+         return ResponseEntity.ok("密碼重設成功");
+     }
+
+
 }
 
