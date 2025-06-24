@@ -7,11 +7,12 @@ import com.example.demo.model.dto.UserCert;
 import com.example.demo.model.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.response.ApiResponse;
-import com.example.demo.service.CertService;
+import com.example.demo.security.UserPrincipal;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.MemberService;
 import com.example.demo.util.HashUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.Optional;
@@ -20,9 +21,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.exception.UserNotFoundException;
-import com.example.demo.exception.PasswordInvalidException;
 
 // 導向前端頁面
 import org.springframework.http.HttpHeaders;
@@ -45,9 +43,6 @@ public class LoginController {
     private MemberService memberService;
 
     @Autowired
-    private CertService certService;
-    
-    @Autowired
     private MemberRepository memberRepository;
     
 
@@ -57,7 +52,9 @@ public class LoginController {
 
      // 登入：接收 username、password，驗證後寫入 Session
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request,
+            HttpSession session,
+            HttpServletRequest httpRequest) {
         Optional<Member> memberOpt = memberRepository.findByUsername(request.getUsername());
         if (memberOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "帳號不存在"));
@@ -69,10 +66,23 @@ public class LoginController {
         if (!member.getPassword().equals(hashedPassword)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "密碼錯誤"));
         }
+        
+        // 建立 Spring Security 專用的 UserPrincipal
+        UserPrincipal principal = new UserPrincipal(member);
+        UsernamePasswordAuthenticationToken authToken =
+            new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+     // 強制寫入 Spring Security context 到 session
+        httpRequest.getSession().setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
 
         // 把登入成功的使用者資訊存入 session
-        session.setAttribute("user", member);
+        //session.setAttribute("user", member);
+        UserCert cert = new UserCert(member.getId(), member.getUsername(), member.getEmail(), member.getRole());
+        session.setAttribute("user", cert);
+        
 
+        
         // 回傳登入成功訊息與會員資料（可自行決定要不要全部傳）
         return ResponseEntity.ok(Map.of(
             "message", "登入成功",

@@ -21,7 +21,12 @@ public class ParkingLotController {
     public List<ParkingLot> getAllParkingLots() {
         return service.getAll(); // 這裡呼叫的是 service 裡的 getAll()
     }
-
+    
+    // 根據 ID 查詢（提供給收藏功能）
+    @GetMapping("/get/{id}")
+    public ParkingLot getById(@PathVariable Integer id) {
+        return service.getById(id);
+    }
     // 根據條件查詢（名稱 / 類型 / 友善 / 價格）
     @GetMapping("/search")
     public List<ParkingLot> search(
@@ -55,8 +60,5 @@ public class ParkingLotController {
     }
 
     
- // 補上這一段即可讓 FavoriteController 使用
-    public ParkingLot getById(@PathVariable Integer id) {
-        return service.getById(id); // ⚠️ 這會呼叫你在 ParkingLotService 新增的方法
-    }
+
 }

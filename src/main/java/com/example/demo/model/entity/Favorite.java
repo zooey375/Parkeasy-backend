@@ -20,13 +20,13 @@ public class Favorite {
 
     // 關聯使用者：多對一
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     @JsonBackReference // 防止 JSON 無限遞迴（Member -> Favorite -> Member -> ...）
     private Member member;
 
     // 關聯停車場：多對一
     @ManyToOne
-    @JoinColumn(name = "parking_lot_id", nullable = false)
+    @JoinColumn(name = "parking_lot_id")
     @JsonIgnoreProperties({"favorites"}) // 避免停車場內部的雙向關聯出現問題
     private ParkingLot parkingLot;
 

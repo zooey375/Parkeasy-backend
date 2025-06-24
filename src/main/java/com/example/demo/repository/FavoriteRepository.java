@@ -11,6 +11,8 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 	List<Favorite> findByMemberId(Long memberId);
 	
 	// 根據會員 ID 與停車場 ID 刪除指定收藏
-    void deleteByMemberIdAndParkingLotId(Long memberId, Integer parkingLotId);
+    //void deleteByMemberIdAndParkingLotId(Long memberId, Integer parkingLotId);
+    Favorite findByMemberIdAndParkingLotId(Long memberId, Integer parkingLotId);
+
 
 }

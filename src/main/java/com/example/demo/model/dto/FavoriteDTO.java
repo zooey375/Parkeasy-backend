@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FavoriteDTO {
     private Integer id;
+    private ParkingLot parkingLot;
     private String name;
     private String type;
     private Boolean friendly;

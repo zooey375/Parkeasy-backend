@@ -44,16 +44,16 @@ public class MemberServiceImpl implements MemberService{
 	    // 建立帳號資料
 	    Member member = new Member();
 	    member.setUsername(username);
-	    member.setPassword(passwordHash);
-	    member.setSalt(salt); // 加這一行才會把 salt 存入資料庫
 	    member.setEmail(email);
+	    member.setSalt(salt); // 加這一行才會把 salt 存入資料庫
+	    member.setPassword(passwordHash);
 	    member.setRole("USER");
 	    member.setConfirmEmail(false); // 預設是未驗證
 	    member.setVerificationToken(token); // 一次設好所有欄位
 	    
 	    memberRepository.save(member);	// 指呼叫一次 save()
 
-	   // emailService.sendVerificationEmail(email, token);
+	    emailService.sendVerificationEmail(member.getEmail(), token);
 
 	    
 	    return true; // 成功註冊

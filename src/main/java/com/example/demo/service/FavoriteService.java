@@ -7,6 +7,9 @@ import com.example.demo.model.entity.ParkingLot;
 import com.example.demo.repository.FavoriteRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.ParkingLotRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +31,9 @@ public class FavoriteService {
     // 改用 userId 查詢
     public List<FavoriteDTO> getFavoritesByUserId(Long userId) {
         List<Favorite> favorites = favoriteRepository.findByMemberId(userId);
+        
         return favorites.stream()
+                .filter(fav -> fav.getParkingLot() != null) // 避免 null
                 .map(fav -> new FavoriteDTO(fav.getParkingLot()))
                 .collect(Collectors.toList());
     }
@@ -43,8 +48,15 @@ public class FavoriteService {
         favoriteRepository.save(favorite);
     }
 
+    @Transactional
     public void removeFavorite(Long userId, Integer parkingLotId) {
-        favoriteRepository.deleteByMemberIdAndParkingLotId(userId, parkingLotId);
+        Favorite favorite = favoriteRepository.findByMemberIdAndParkingLotId(userId, parkingLotId);
+        if (favorite != null) {
+            favoriteRepository.delete(favorite);
+        } else {
+            throw new RuntimeException("找不到收藏記錄");
+        }
     }
+
 }
 

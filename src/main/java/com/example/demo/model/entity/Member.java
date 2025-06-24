@@ -1,6 +1,6 @@
 package com.example.demo.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,12 +32,10 @@ public class Member {
 
     private boolean confirmEmail = false;
 
-    @Column(nullable = true)
-    private String verificationToken;
 
     // 一位會員可以收藏多筆停車場
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference // 和 Favorite 的 @JsonBackReference 配對，避免無限遞迴
+    @JsonIgnore 
     private List<Favorite> favorites;
     
     // 建立忘記密碼
@@ -46,4 +44,7 @@ public class Member {
 
     @Column(name = "token_expiry")
     private LocalDateTime tokenExpiry;
+    
+    @Column(name = "verification_token")
+    private String verificationToken;
 }
