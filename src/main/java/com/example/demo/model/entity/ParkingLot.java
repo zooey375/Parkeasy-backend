@@ -57,7 +57,7 @@ public class ParkingLot {
     @Column(name = "longitude")
     private Double longitude;
 
-    // ✅ 一個停車場可以被很多人收藏
+    // 一個停車場可以被很多人收藏
     @OneToMany(mappedBy = "parkingLot", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore // 避免前端請求時進入無限循環
     private List<Favorite> favorites;

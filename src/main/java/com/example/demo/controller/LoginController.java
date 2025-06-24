@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.dto.ForgotPasswordRequest;
+import com.example.demo.model.dto.LoginRequest;
 import com.example.demo.model.dto.ResetPasswordRequest;
 import com.example.demo.model.dto.UserCert;
 import com.example.demo.model.entity.Member;
@@ -34,6 +35,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -55,40 +57,33 @@ public class LoginController {
 
      // 登入：接收 username、password，驗證後寫入 Session
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<UserCert>> login(@RequestBody Member member, HttpSession session) {
-        String username = member.getUsername();
-        String password = member.getPassword();
-
-        try {
-        	// 驗證帳號密碼
-            UserCert cert = certService.login(username, password);
-            
-            // 設定 Spring Security 的使用者認證與角色
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-            	cert.getUsername(),
-                null,
-                List.of(new SimpleGrantedAuthority("ROLE_" + cert.getRole())) // 角色前綴需加 ROLE_
-            );
-            SecurityContextHolder.getContext().setAuthentication(auth);
-
-            // 存入 Session
-            session.setAttribute("user", cert); 
-            return ResponseEntity.ok(ApiResponse.success("登入成功", cert));
-        } catch (UserNotFoundException | PasswordInvalidException e) {
-        	// 帳號或密碼錯誤
-            return ResponseEntity.status(401)
-            		.body(ApiResponse.error(401, e.getMessage()));
-        } catch (RuntimeException e) {
-        	// 信箱未驗證或其他自定義錯誤
-            return ResponseEntity.status(403)
-            		.body(ApiResponse.error(403, e.getMessage()));
-        } catch (Exception e) {
-        	// 不明錯誤
-            return ResponseEntity.status(500)
-            		.body(ApiResponse.error(500, "伺服器錯誤"));
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession session) {
+        Optional<Member> memberOpt = memberRepository.findByUsername(request.getUsername());
+        if (memberOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "帳號不存在"));
         }
+
+        Member member = memberOpt.get();
+        String hashedPassword = HashUtil.hashPassword(request.getPassword(), member.getSalt());
+
+        if (!member.getPassword().equals(hashedPassword)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "密碼錯誤"));
+        }
+
+        // 把登入成功的使用者資訊存入 session
+        session.setAttribute("user", member);
+
+        // 回傳登入成功訊息與會員資料（可自行決定要不要全部傳）
+        return ResponseEntity.ok(Map.of(
+            "message", "登入成功",
+            "data", Map.of(
+                "id", member.getId(),
+                "username", member.getUsername(),
+                "email", member.getEmail(),
+                "role", member.getRole()
+            )
+        ));
     }
-    
     
      // 註冊：接收 username、password、email，新增帳號
     @PostMapping("/register")

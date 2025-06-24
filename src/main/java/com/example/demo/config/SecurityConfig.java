@@ -22,7 +22,7 @@ public class SecurityConfig {
         	.sessionManagement()
         	.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
         	.and()
-            .cors(Customizer.withDefaults()) // 建議用 Customizer，避免 CORS 不生效
+        	.cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf().disable()
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -58,10 +58,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // ✅ 前端網址
+        config.setAllowedOrigins(List.of("http://localhost:5173")); // 前端網址
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // ✅ 帶 session cookie
+        config.setAllowCredentials(true); // 帶 session cookie
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
