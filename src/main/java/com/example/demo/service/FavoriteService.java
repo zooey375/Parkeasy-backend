@@ -39,6 +39,14 @@ public class FavoriteService {
     }
 
     public void addFavorite(Long userId, Integer parkingLotId) {
+    	boolean exists = favoriteRepository
+    		.findByMemberIdAndParkingLotId(userId, parkingLotId)
+    		.isPresent();
+
+    		if (exists) {
+    			return; // 已存在就不要再加
+    		}
+    		
         Member member = memberRepository.findById(userId).orElseThrow();
         ParkingLot lot = parkingLotRepository.findById(parkingLotId).orElseThrow();
 
@@ -50,13 +58,11 @@ public class FavoriteService {
 
     @Transactional
     public void removeFavorite(Long userId, Integer parkingLotId) {
-        Favorite favorite = favoriteRepository.findByMemberIdAndParkingLotId(userId, parkingLotId);
-        if (favorite != null) {
-            favoriteRepository.delete(favorite);
-        } else {
-            throw new RuntimeException("找不到收藏記錄");
-        }
-    }
+    	  Favorite favorite = favoriteRepository
+    		        .findByMemberIdAndParkingLotId(userId, parkingLotId)
+    		        .orElseThrow(() -> new RuntimeException("找不到收藏記錄"));
 
+    		    favoriteRepository.delete(favorite);
+    		}
 }
 

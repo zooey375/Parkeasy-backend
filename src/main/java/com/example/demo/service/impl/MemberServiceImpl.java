@@ -33,7 +33,7 @@ public class MemberServiceImpl implements MemberService{
 	    // 檢查帳號是否存在
 		Optional<Member> memberOpt = memberRepository.findByUsername(username);
 	    if (memberOpt.isPresent()) {
-	        return false; // 帳號已存在
+	        return false; // 帳號已存在 → 中斷流程
 	    }
 	    
 	    // === 加密密碼 ===

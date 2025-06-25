@@ -104,7 +104,7 @@ public class LoginController {
             return ResponseEntity.badRequest().body(ApiResponse.error(400, "帳號已存在"));
         }
 
-        return ResponseEntity.ok(ApiResponse.success("註冊成功", null));
+        return ResponseEntity.ok(ApiResponse.success("註冊成功，請前往你的信箱點擊驗證信 ~", null));
     }
 
 
